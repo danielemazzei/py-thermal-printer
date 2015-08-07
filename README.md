@@ -7,10 +7,7 @@ shops like Adafruit and Sparkfun (e.g. http://www.adafruit.com/products/597).
 This works is a Viper adaptation of Lauri Kainulainen work (https://github.com/luopio/py-thermal-printer) and it is based on the Adafruit Arduino library developed by Ladyada (https://github.com/adafruit/Adafruit-Thermal-Printer-Library). 
 
 Author: 
-Daniele Mazzei
-Lauri Kainulainen
-Ladyada
+Daniele Mazzei, Lauri Kainulainen, Limor Fried (Adafruit) and Giacomo Baldi
 
-Contributors:
-Giacomo Baldi
+
 
