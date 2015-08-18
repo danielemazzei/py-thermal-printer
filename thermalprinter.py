@@ -3,9 +3,9 @@
 
 Viper Thermal Printer
 
-This module is contains class definitions for the "micro panel thermal printer" sold in shops like Adafruit and Sparkfun (e.g. http://www.adafruit.com/products/597). 
+This module contains class definitions for the "micro panel thermal printer" sold in shops like Adafruit and Sparkfun (e.g. http://www.adafruit.com/products/597). 
         
-The code is an adaptation for Viper www.viperize.it of the Lauri Kainulainen work https://github.com/luopio/py-thermal-printer and based on the porting of Ladyada's Arduino library.    
+The code is an adaptation for `Viper <http://www.viperize.it>`_. of the Lauri Kainulainen work https://github.com/luopio/py-thermal-printer and it is based on the porting of the Adafruit library made by Ladyada's for Arduino.    
 
 """
 
@@ -20,15 +20,12 @@ ThermalPrinter class
 .. class:: ThermalPrinter(serialport, baudrate=19200, heatTime=80, heatInterval=2, heatingDots=7)
 
     This is the class for creating a thermal printer instance. 
-    * serialport: The name of the serial port where the printer is connected: SERIAL0, SERIAL1, SERIAL2...
-    * baudrate: The serial port speed. default is 19200 as set in most of the printer by default. To know the printer configured baudrate press for more than 5 second the printer button, the printed test ticket will report the baudrate.
-
-    Other parameters are "max printing dots", "heating time"and "heating interval"
-    printing dots = 0-255 Max printing dots, Unit (8dots), Default: 7 (64 dots); heating time = 3-255 Heating time, Unit (10us), Default: 80 (800us); heating interval = 0-255 Heating interval, Unit (10us), Default: 2 (20us).
+    * serialport: It is the serial port where the printer is connected: SERIAL0, SERIAL1, SERIAL2...
+    * baudrate: It is the serial port speed. Default is 19200 as set in most of the printers by default. To know the printer baudrate press for more than 5 second the printer button, the printed test ticket will report the baudrate.
+    * heatTime: Heating time ranges between 3 and 255, unit corresponds to 10us, Default is set to 80 (800us). Increasing the heating time will increase the printing density but printing speed will be reduced. If heating time is too short, blank page may occur.
+    * heatInterval: Heating interval ranges between 0 and 255, unit corresponds to 10us, Default is set to 2 (20us). Increasing the heating interval clearer prints are obtained but the printing speed is reduced.
+    * heatingDots: Max printing dots range between 0 and 255 Max printing dots. Each unit corresponds to 8 dots. Default is set to 7 (64 dots). Increasing the value of max heating dots will increase the peak of current when printing and consequently the printing speed. 
     
-    The more max heating dots, the more peak current will cost when printing, the faster printing speed. The max heating dots is 8*(n1+1). The more heating time, the more density,
-    but the slower printing speed. If heating time is too short, blank page may occur. The more heating interval, the more clear, but the slower printing speed. 
-
     """   
     
 
@@ -40,9 +37,7 @@ ThermalPrinter class
     # pixels with less alpha than this are counted as white
     alpha_threshold = 127
 
-    printer = None
-
-    
+    printer = None    
 
 
     _ESC = chr(27)
@@ -165,34 +160,57 @@ ThermalPrinter class
         self.write(chr(119)) # Leave
         self.write(chr(2))   # Value 2,3 Default 2
         
-    def barcode(self, msg,print_numbers=2):
+    def barcode(self, msg,code="UPCA",digits=11,print_numbers=2):
+        
         """
-.. method:: barcode(msg,print_numbers=2)
+    .. method:: barcode(msg,code="UPCA",digits=11,print_numbers=2)
 
-    Prints a barcode. 
-    Print barcode number option: 1:Abovebarcode 2:Below 3:Both 0:Not printed
-    Please read http://www.adafruit.com/datasheets/A2-user%20manual.pdf for information on how to use barcodes. 
-    This function need a 12 digits code as input
-    """
-        # CODE SYSTEM, NUMBER OF CHARACTERS        
-        # 65=UPC-A    11,12    #71=CODEBAR    >1
-        # 66=UPC-E    11,12    #72=CODE93    >1
-        # 67=EAN13    12,13    #73=CODE128    >1
-        # 68=EAN8    7,8    #74=CODE11    >1
-        # 69=CODE39    >1    #75=MSI        >1
-        # 70=I25        >1 EVEN NUMBER 
-        self.barcode_chr(print_numbers)          
+        Prints a barcode taking as input a set of digits as string.
+        The barcode symbology can be selected as second parameters (passed as string) according to the reported table, default is UPCA. 
+        Each symbology as a specific number of allowed digits that have also to be passed as parameter.
+        More info on barcode symbology https://en.wikipedia.org/wiki/Barcode#Linear_barcodes
+        
+        CODE SYSTEM     NUMBER OF CHARACTERS REQUIRED           
+        UPCA            11,12    
+        UPCE            11,12           (Not yet supported)  
+        EAN13           12,13   
+        EAN8            7,8    
+        CODE39          >1    
+        I25             >1 EVEN NUMBER  (not yet supported)
+        CODEBAR         >1
+        CODE93          >1
+        CODE128         >1
+        CODE11          >1
+        MSI             >1
+        
+        Barcode numbers position option: 1:Abovebarcode 2:Below 3:Both 0:Not printed       
+        
+            
+        """
+
+        codes={"UPCA":65,
+                "UPCE":66,
+                "EAN13":67,
+                "EAN8":68,
+                "CODE39":69,
+                "I25":70,
+                "CODEBAR":71,
+                "CODE93":72,
+                "CODE128":73,
+                "CODE11":74,
+                "MSI":75}    
+        self.barcode_chr(str(print_numbers))          
         self.write(chr(29))  # LEAVE
         self.write(chr(107)) # LEAVE
-        self.write(chr(65))  # USE ABOVE CHART
-        self.write(chr(12))  # USE CHART NUMBER OF CHAR 
+        self.write(chr(codes[code]))  # USE ABOVE CHART
+        self.write(chr(digits))  # USE CHART NUMBER OF CHAR 
         self.write(msg)
         
         
     
     def print_text(self, msg, justification="l", style="n", chars_per_line=None):
         """ 
-        .. method:: print_text(msg, allignement=l, style=n, chars_per_line=None)
+    .. method:: print_text(msg, allignement=l, style=n, chars_per_line=None)
 
         Print some text defined by msg. If chars_per_line is defined, inserts newlines after the given amount. 
         Use normal '\n' line breaks for empty lines.

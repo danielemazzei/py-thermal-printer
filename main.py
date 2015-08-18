@@ -1,6 +1,13 @@
+################################################################################
+# Thermal Printer Basics
+#
+# Created by VIPER Team 2015 CC
+# Authors: D. Mazzei, G. Baldi,  
+###############################################################################
+
 import streams
 
-import thermalprinter
+from drivers.thermalprinter import thermalprinter
 
 # create a printer passing to the class the serial port name. Printer RX wire have to be connected 
 # to the selected serial port TX pin. The default baudrate for the thermal printers is 19200
@@ -13,7 +20,7 @@ s= streams.serial(SERIAL0)
 def test(printer):  
     # print_text(msg,"a","s") takes as input a string containing the massage and two characters for the definition of the a:allignment and s:syle    
     # first character denotes justification (l=left, c=centre, r=right)
-    # second character denotes style (n=normal, b=bold, u=underline, i=inverse, f=font B)
+    # second character denotes style (n=normal, b=bold, u=undfrom drivers.thermalprinter erline, i=inverse, f=font B)
     # normal style with left alignment is the default
     # \n is required for line termination
     
@@ -21,7 +28,7 @@ def test(printer):
     p.print_text("Left and Bold\n","l","b")
     p.print_text("Center and Underlined\n","c","u")
     p.print_text("Right and Inverted\n","r","i")
-    p.print_text("Left and Font B\n","l","f")    
+    p.print_text("Left and Font B\n\n","l","f")    
 
     #print_text also supports auto line ending giving as input chars_per_line as last parameter
     
