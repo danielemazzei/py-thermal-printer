@@ -1,0 +1,263 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Thermal Printer &mdash; Thermal Printer 0.3.0 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/viper.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Thermal Printer 0.3.0 documentation" href="index.html"/>
+        <link rel="prev" title="Thermal Printer" href="index.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="index.html" class="fa fa-home"> Thermal Printer</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">Thermal Printer</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Thermal Printer</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Thermal Printer</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="_sources/thermalprinter.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <span class="target" id="module-ThermalPrinter"></span><div class="section" id="thermal-printer">
+<h1>Thermal Printer<a class="headerlink" href="#thermal-printer" title="Permalink to this headline">¶</a></h1>
+<p>This module contains class definitions for the &#8220;micro panel thermal printer&#8221; sold in shops like Adafruit and Sparkfun (e.g. <a class="reference external" href="http://www.adafruit.com/products/597">http://www.adafruit.com/products/597</a>).</p>
+<p>The code is an adaptation for Viper of the Lauri Kainulainen work (<a class="reference external" href="https://github.com/luopio/py-thermal-printer">https://github.com/luopio/py-thermal-printer</a>) and it is based on the porting of the Adafruit library made by Ladyada for Arduino.</p>
+<blockquote>
+<div></div></blockquote>
+<dl class="class">
+<dt id="ThermalPrinter.ThermalPrinter">
+<em class="property">class </em><code class="descname">ThermalPrinter</code><span class="sig-paren">(</span><em>serialport</em>, <em>baudrate=19200</em>, <em>heatTime=80</em>, <em>heatInterval=2</em>, <em>heatingDots=7</em><span class="sig-paren">)</span><a class="headerlink" href="#ThermalPrinter.ThermalPrinter" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the class for creating a thermal printer instance.</p>
+<ul class="simple">
+<li>serialport: it is the serial port the printer is connected to: SERIAL0, SERIAL1, SERIAL2...</li>
+<li>baudrate: it is the serial port speed. Default is 19200 as set in most of the printers by default. To know the printer baudrate press for more than 5 second the printer button, the printed test ticket will report the baudrate.</li>
+<li>heatTime: heating time ranges between 3 and 255, unit corresponds to 10us, Default is set to 80 (800us). Increasing the heating time will increase the printing density but printing speed will be reduced. If heating time is too short, blank page may occur.</li>
+<li>heatInterval: heating interval ranges between 0 and 255, unit corresponds to 10us, Default is set to 2 (20us). Increasing the heating interval clearer prints are obtained but the printing speed is reduced.</li>
+<li>heatingDots: max printing dots range between 0 and 255 Max printing dots. Each unit corresponds to 8 dots. Default is set to 7 (64 dots). Increasing the value of max heating dots will increase the peak of current when printing and consequently the printing speed.</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="ThermalPrinter.print_text">
+<code class="descname">print_text</code><span class="sig-paren">(</span><em>msg</em>, <em>justification=&quot;l&quot;</em>, <em>style=&quot;n&quot;</em>, <em>chars_per_line=None</em><span class="sig-paren">)</span><a class="headerlink" href="#ThermalPrinter.print_text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print text passed as string</p>
+<blockquote>
+<div><ul class="simple">
+<li>msg: it is the string to be printed. Use &#8220;\n&#8221; line breaks to write empty lines.</li>
+<li>justification: it is the text alignment to be passed as string (&#8220;l&#8221;=left, &#8220;c&#8221;=centre, &#8220;r&#8221;=right)</li>
+<li>style: it is the text style to be passed as string (&#8220;n&#8221;=normal, &#8220;b&#8221;=bold, &#8220;u&#8221;=underline, &#8220;i&#8221;=inverse, &#8220;f&#8221;=font B)</li>
+<li>chars_per_line: if chars_per_line is defined the printer inserts a newline character after the given amount of printed chars.</li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="ThermalPrinter.barcode">
+<code class="descname">barcode</code><span class="sig-paren">(</span><em>msg</em>, <em>code=&quot;UPCA&quot;</em>, <em>digits=11</em>, <em>print_numbers=2</em><span class="sig-paren">)</span><a class="headerlink" href="#ThermalPrinter.barcode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints a barcode taking as input a set of digits as string.</p>
+<blockquote>
+<div><ul class="simple">
+<li>msg: it is the string containing the digits required for the generation of the barcode</li>
+<li>code: it is the barcode symbology. It can be selected according to the following table, default is UPCA.</li>
+<li>digits: each symbology has a specific number of allowed digits that have also to be passed as parameter according to the following table.</li>
+<li>print_numbers: barcode numbers position option: 1:Abovebarcode 2:Below 3:Both 0:Not printed</li>
+</ul>
+<table border="1" class="docutils">
+<colgroup>
+<col width="28%" />
+<col width="72%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">CODE SYSTEM</th>
+<th class="head">NUMBER OF CHARACTERS REQUIRED</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>UPCA</td>
+<td>11,12</td>
+</tr>
+<tr class="row-odd"><td>UPCE</td>
+<td>11,12           (Not yet supported)</td>
+</tr>
+<tr class="row-even"><td>EAN13</td>
+<td>12,13</td>
+</tr>
+<tr class="row-odd"><td>EAN8</td>
+<td>7,8</td>
+</tr>
+<tr class="row-even"><td>CODE39</td>
+<td>&gt;1</td>
+</tr>
+<tr class="row-odd"><td>I25</td>
+<td>&gt;1 EVEN NUMBER  (not yet supported)</td>
+</tr>
+<tr class="row-even"><td>CODEBAR</td>
+<td>&gt;1</td>
+</tr>
+<tr class="row-odd"><td>CODE93</td>
+<td>&gt;1</td>
+</tr>
+<tr class="row-even"><td>CODE128</td>
+<td>&gt;1</td>
+</tr>
+<tr class="row-odd"><td>CODE11</td>
+<td>&gt;1</td>
+</tr>
+<tr class="row-even"><td>MSI</td>
+<td>&gt;1</td>
+</tr>
+</tbody>
+</table>
+<p>More info on barcode symbology <a class="reference external" href="https://en.wikipedia.org/wiki/Barcode#Linear_barcodes">https://en.wikipedia.org/wiki/Barcode#Linear_barcodes</a></p>
+</div></blockquote>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Thermal Printer"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Viper Team.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.3.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

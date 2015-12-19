@@ -1,0 +1,8 @@
+{
+	"version":"0.3.0",
+	"title":"Thermal Printer",
+	"copyright":"Viper Team",
+	"files":[
+		["Thermal Printer","thermalprinter.py"]
+	]
+}
